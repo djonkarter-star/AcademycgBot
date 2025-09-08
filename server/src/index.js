@@ -1,9 +1,10 @@
 
 // server/src/index.js
+require("dotenv").config();
 const { Telegraf, Markup } = require("telegraf");
 const courses = require("./data");
 
-const bot = new Telegraf("ВАШ_ТОКЕН_ТЕЛЕГРАМ");
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start((ctx) => {
   ctx.reply("Привет! 👋 Выберите направление:", 
