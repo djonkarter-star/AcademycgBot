@@ -1,41 +1,28 @@
+const express = require("express");
+const { Telegraf } = require("telegraf");
 require("dotenv").config();
-const { Telegraf, Markup } = require("telegraf");
-const courses = require("./data");
 
+const app = express();
+
+// 🔑 токен берём из .env
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.start((ctx) => {
-  ctx.reply("Привет! 👋 Выберите направление:", 
-    Markup.keyboard(Object.keys(courses)).resize()
-  );
+// Команда /start
+bot.start((ctx) => ctx.reply("Добро пожаловать в AcademyCG! 🚀"));
+
+// Команда /courses
+bot.command("courses", (ctx) => {
+  ctx.reply("📚 Доступные направления:\n1. Программирование\n2. Дизайн\n3. Маркетинг");
 });
 
-bot.hears(Object.keys(courses), (ctx) => {
-  const direction = ctx.message.text;
-  const courseList = Object.keys(courses[direction]);
-
-  ctx.session = { direction };
-  ctx.reply(`Вы выбрали направление: *${direction}* \nТеперь выберите курс:`,
-    Markup.keyboard(courseList).resize()
-  );
-});
-
-bot.hears(/Курс/, (ctx) => {
-  const { direction } = ctx.session || {};
-  if (!direction) return ctx.reply("Сначала выберите направление!");
-
-  const course = ctx.message.text;
-  const lessons = courses[direction][course];
-
-  ctx.session.course = course;
-  ctx.reply(`Курс: *${course}* \nВыберите урок:`,
-    Markup.keyboard(lessons).resize()
-  );
-});
-
-bot.hears(/Урок/, (ctx) => {
-  ctx.reply(`🔒 Этот урок доступен только по подписке. Скоро подключим оплату через Юкассу 💳`);
-});
-
+// Запуск бота
 bot.launch();
-console.log("Бот запущен 🚀");
+console.log("✅ Telegram бот запущен!");
+
+// Express для WebApp (пока простая заглушка)
+app.get("/", (req, res) => {
+  res.send("AcademyCG Bot работает!");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🌍 Сервер запущен на порту ${PORT}`));
