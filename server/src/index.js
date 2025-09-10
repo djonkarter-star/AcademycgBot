@@ -1,5 +1,5 @@
 const express = require("express");
-const { Telegraf } = require("telegraf");
+const { Telegraf, Markup } = require("telegraf");
 require("dotenv").config();
 
 const app = express();
@@ -7,10 +7,22 @@ const app = express();
 // 🔑 токен берём из .env
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// Команда /start
-bot.start((ctx) => ctx.reply("Добро пожаловать в AcademyCG! 🚀"));
+// Команда /start с кнопкой WebApp
+bot.start((ctx) => {
+  ctx.reply(
+    "Добро пожаловать в AcademyCG! 🚀\nНажмите кнопку ниже, чтобы открыть меню.",
+    Markup.keyboard([
+      [
+        Markup.button.webApp(
+          "📖 Открыть меню",
+          "https://academy-cg.ru" // тут ставим твой домен с WebApp
+        )
+      ]
+    ]).resize()
+  );
+});
 
-// Команда /courses
+// Команда /courses (для проверки)
 bot.command("courses", (ctx) => {
   ctx.reply("📚 Доступные направления:\n1. Программирование\n2. Дизайн\n3. Маркетинг");
 });
@@ -19,9 +31,9 @@ bot.command("courses", (ctx) => {
 bot.launch();
 console.log("✅ Telegram бот запущен!");
 
-// Express для WebApp (пока простая заглушка)
+// Express для WebApp
 app.get("/", (req, res) => {
-  res.send("AcademyCG Bot работает!");
+  res.send("🌍 AcademyCG WebApp подключен к Telegram Bot!");
 });
 
 const PORT = process.env.PORT || 3000;
