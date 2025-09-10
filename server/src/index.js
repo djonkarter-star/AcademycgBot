@@ -15,7 +15,7 @@ bot.start((ctx) => {
       [
         Markup.button.webApp(
           "📖 Открыть меню",
-          "https://academy-cg.ru" // тут ставим твой домен с WebApp
+          "https://academycg.online" // тут ставим твой домен с WebApp
         )
       ]
     ]).resize()
