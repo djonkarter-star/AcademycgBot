@@ -3,10 +3,9 @@ module.exports = {
     {
       name: "telegram-bot",
       script: "server/src/index.js",
-      watch: false,
       env: {
         NODE_ENV: "production",
-        PORT: 3000
+        BOT_TOKEN: "6421391676:AAE-0C21BHQ3SVm0fysCHsQTuJRkDSOaSnk"
       }
     }
   ]
