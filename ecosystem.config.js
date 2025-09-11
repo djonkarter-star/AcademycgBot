@@ -1,11 +1,14 @@
+require("dotenv").config();
+
 module.exports = {
   apps: [
     {
       name: "telegram-bot",
       script: "server/src/index.js",
       env: {
-        NODE_ENV: "production",
-        BOT_TOKEN: "6421391676:AAE-0C21BHQ3SVm0fysCHsQTuJRkDSOaSnk"
+        NODE_ENV: process.env.NODE_ENV,
+        BOT_TOKEN: process.env.BOT_TOKEN,
+        PORT: process.env.PORT || 3000
       }
     }
   ]
